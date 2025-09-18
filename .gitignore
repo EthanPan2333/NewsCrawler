@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+news_env/
+venv/
+env/
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project-specific
+guardian_data_*.csv
+*.log
+scraper.log
+output/
+data/
+*.tmp
+*.bak
