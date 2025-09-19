@@ -22,19 +22,24 @@ from bs4 import BeautifulSoup
 from newsplease import NewsPlease
 
 
-def generate_timestamped_filename(base_filename: str) -> str:
+def generate_timestamped_filename(base_filename: str, output_dir: str = "output") -> str:
     """
-    Generate a filename with UTC timestamp suffix.
+    Generate a filename with UTC timestamp suffix in the specified directory.
     
     Args:
         base_filename: Base filename (e.g., 'guardian_data.csv')
+        output_dir: Directory to save the file (default: 'output')
         
     Returns:
-        Filename with UTC timestamp suffix (e.g., 'guardian_data_20250918_055938.csv')
+        Full path with UTC timestamp suffix (e.g., 'output/guardian_data_20250918_055938.csv')
     """
+    # Ensure output directory exists
+    os.makedirs(output_dir, exist_ok=True)
+    
     timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
     name, ext = os.path.splitext(base_filename)
-    return f"{name}_{timestamp}{ext}"
+    filename = f"{name}_{timestamp}{ext}"
+    return os.path.join(output_dir, filename)
 
 
 class GuardianScraper:
@@ -54,9 +59,10 @@ class GuardianScraper:
         self.output_file = output_file
         self.sitemap_url = "https://www.theguardian.com/sitemaps/news.xml"
         
-        # Setup logging with UTC timestamped filename
+        # Setup logging with UTC timestamped filename in logs directory
+        os.makedirs("logs", exist_ok=True)
         timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
-        log_filename = f"get_articles_guardian_log_{timestamp}.log"
+        log_filename = os.path.join("logs", f"get_articles_guardian_log_{timestamp}.log")
         
         logging.basicConfig(
             level=logging.INFO,
@@ -244,6 +250,11 @@ def main():
     output_file = args.output
     if not args.no_timestamp:
         output_file = generate_timestamped_filename(args.output)
+        print(f"Output will be saved to: {output_file}")
+    else:
+        # Even without timestamp, save to output directory
+        os.makedirs("output", exist_ok=True)
+        output_file = os.path.join("output", args.output)
         print(f"Output will be saved to: {output_file}")
     
     # Create and run scraper

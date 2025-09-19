@@ -50,6 +50,8 @@ pip install -r requirements.txt
 - `README.md` - This documentation
 - `.gitignore` - Git ignore rules
 - `news_env/` - Python virtual environment (activate with `source news_env/bin/activate`)
+- `output/` - Directory for CSV output files
+- `logs/` - Directory for log files
 
 ## Usage
 
@@ -104,7 +106,7 @@ python get_articles_guardian.py --output guardian_articles.csv
 
 ## Output Format
 
-The scraper generates a CSV file with the following columns:
+The scraper generates CSV files in the `output/` directory with the following columns:
 
 | Column | Description | Example |
 |--------|-------------|---------|
@@ -118,7 +120,7 @@ The scraper generates a CSV file with the following columns:
 
 ## Logging
 
-The scraper creates detailed logs with UTC timestamped filenames in the format `get_articles_guardian_log_{TIMESTAMP}.log` (e.g., `get_articles_guardian_log_20250918_055416.log`) with information about:
+The scraper creates detailed logs in the `logs/` directory with UTC timestamped filenames in the format `get_articles_guardian_log_{TIMESTAMP}.log` (e.g., `logs/get_articles_guardian_log_20250918_055416.log`) with information about:
 
 - Sitemap fetching progress
 - Individual article extraction attempts
@@ -214,7 +216,7 @@ logging.basicConfig(level=logging.DEBUG, ...)
 
 ### Log Files
 
-Each run creates a unique UTC timestamped log file (e.g., `get_articles_guardian_log_20250918_055416.log`) to avoid overwriting previous logs and maintain a history of scraping sessions.
+Each run creates a unique UTC timestamped log file in the `logs/` directory (e.g., `logs/get_articles_guardian_log_20250918_055416.log`) to avoid overwriting previous logs and maintain a history of scraping sessions.
 
 ## Best Practices
 
@@ -248,7 +250,7 @@ Potential improvements for future versions:
 
 For issues or questions:
 
-1. Check the logs in the UTC timestamped log file (e.g., `get_articles_guardian_log_YYYYMMDD_HHMMSS.log`)
+1. Check the logs in the UTC timestamped log file (e.g., `logs/get_articles_guardian_log_YYYYMMDD_HHMMSS.log`)
 2. Review this documentation
 3. Verify all dependencies are installed
 4. Test with a small number of articles first
